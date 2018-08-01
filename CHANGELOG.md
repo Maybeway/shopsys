@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### [shopsys/framework]
+#### Changed
+- [#378 - Upgrade PostgreSQL to version 10](https://github.com/shopsys/shopsys/pull/335):
+    - please look at [UPGRADE.md](./UPGRADE.md) to upgrade without losing your data.
+
 #### Fixed
 - [#260 - JS validation: dynamically added form inputs are now validated](https://github.com/shopsys/shopsys/pull/260)
 
