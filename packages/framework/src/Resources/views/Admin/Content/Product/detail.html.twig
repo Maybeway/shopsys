@@ -63,6 +63,7 @@
 
         {% block product_variants %}{% endblock %}
 
+    {#
         <div class="form-group wrap-border">
 
             <div class="form-group__title">
@@ -70,25 +71,26 @@
             </div>
 
             {% block product_catnum %}
-                {{ form_row(form.productData.catnum, { label: 'Catalogue number'|trans }) }}
+                {{ form_row(form.productData.catnum) }}
             {% endblock %}
 
             {% block product_partno %}
-                {{ form_row(form.productData.partno, { label: 'PartNo (serial number)'|trans }) }}
+                {{ form_row(form.productData.partno) }}
             {% endblock %}
 
             {% block product_ean %}
-                {{ form_row(form.productData.ean, { label: 'EAN'|trans }) }}
+                {{ form_row(form.productData.ean) }}
             {% endblock %}
 
-            {{ form_id(product|default(null)) }}
+            { form_id(product|default(null)) }
 
-            {{ form_row(form.productData.flags, { label: 'Flags'|trans}) }}
+            {{ form_row(form.productData.flags) }}
 
-            {{ form_row(form.productData.brand, { label: 'Brand'|trans}) }}
+            {{ form_row(form.productData.brand) }}
 
         </div>
-
+    #}
+    {#
         <div class="form-group wrap-border">
 
             <div class="form-group__title">
@@ -99,11 +101,11 @@
 
             {% block product_calculated_hidden_info %}{% endblock %}
 
-            {{ form_row(form.productData.sellingFrom, { label: 'Selling start date'|trans }) }}
+            {{ form_row(form.productData.sellingFrom) }}
 
-            {{ form_row(form.productData.sellingTo, { label: 'Selling end date'|trans }) }}
+            {{ form_row(form.productData.sellingTo) }}
 
-            {{ form_row(form.productData.sellingDenied, { label: 'Exclude from sale'|trans,
+            {{ form_row(form.productData.sellingDenied, {
                 icon: {
                     title: 'Products excluded from sale can\'t be displayed on lists and can\'t be searched. Product detail is available by direct access from the URL, but it is not possible to add product to cart.'|trans
                 } }) }}
@@ -114,7 +116,7 @@
 
             {% block product_categories %}
                 <div class="form-line">
-                    {{ form_label(form.productData.categoriesByDomainId, 'Assign to category'|trans) }}
+                    {{ form_label(form.productData.categoriesByDomainId) }}
                     <div class="form-line__line">
                         {% for domainId, categoriesForm in form.productData.categoriesByDomainId %}
                             <div class="form-line__box">
@@ -136,26 +138,27 @@
                 </div>
             {% endblock %}
 
-            {{ form_row(form.productData.unit, { label: 'Unit'|trans }) }}
+            {{ form_row(form.productData.unit) }}
 
             {% block product_stock_and_availability %}
-                {{ form_row(form.productData.usingStock, { label: 'Use stocks'|trans }) }}
+                {{ form_row(form.productData.usingStock) }}
                 <div class="js-product-using-stock form-line__js">
-                    {{ form_row(form.productData.stockQuantity, { label: 'Available in stock'|trans }) }}
-                    {{ form_row(form.productData.outOfStockAction, { label: 'Action after sellout'|trans }) }}
+                    {{ form_row(form.productData.stockQuantity) }}
+                    {{ form_row(form.productData.outOfStockAction) }}
                     <div class="js-product-using-stock-and-alternate-availability">
-                        {{ form_row(form.productData.outOfStockAvailability, { label: 'Availability after sellout'|trans }) }}
+                        {{ form_row(form.productData.outOfStockAvailability) }}
                     </div>
                 </div>
                 <div class="js-product-not-using-stock form-line__js">
-                    {{ form_row(form.productData.availability, { label: 'Availability'|trans }) }}
+                    {{ form_row(form.productData.availability) }}
                 </div>
             {% endblock %}
 
-            {{ form_row(form.productData.orderingPriority, { label: 'Sorting priority'|trans }) }}
+            {{ form_row(form.productData.orderingPriority) }}
 
         </div>
-
+        #}
+{##}
         <div class="form-group wrap-border">
 
             <div class="form-group__title">
@@ -170,7 +173,8 @@
             {% endblock %}
 
         </div>
-
+    {##}
+{#
         <div class="form-group wrap-border">
             {% block product_description %}
                 <div class="form-group__title">
@@ -223,7 +227,9 @@
                 {% endfor %}
             {% endblock %}
         </div>
+#}
 
+{#
         <div class="js-form-group wrap-border form-group">
             <div class="form-group__title">
                 <span class="js-validation-label">{{ 'Parameters'|trans }}</span>
@@ -286,28 +292,29 @@
                 </div>
             </div>
         </div>
-
+#}
+{#
         <div class="form-group wrap-border">
             <div class="form-group__title">
                 {{ 'SEO'|trans }}
             </div>
 
-            {{ seoFormRowMacros.multidomainRow(form.productData.seoTitles, 'Page title'|trans, 60) }}
+            {{ seoFormRowMacros.multidomainRow(form.productData.seoTitles) }}
 
-            {{ seoFormRowMacros.multidomainRow(form.productData.seoMetaDescriptions, 'Meta description'|trans, 155, 'input--seo') }}
+            {{ seoFormRowMacros.multidomainRow(form.productData.seoMetaDescriptions) }}
 
-            {{ seoFormRowMacros.multidomainRow(form.productData.seoH1s, 'Heading (H1)'|trans) }}
+            {{ seoFormRowMacros.multidomainRow(form.productData.seoH1s) }}
 
             {% block product_urls %}{% endblock %}
         </div>
-
         <div class="form-group wrap-border">
             <div class="form-group__title">
                 {{ 'Images'|trans }}
             </div>
             {{ form_row(form.images) }}
         </div>
-
+#}
+{#
         <div class="form-group {% if form.pluginData is not empty %}wrap-border{% endif %}">
             <div class="form-group__title">
                 {{ 'Accessories'|trans }}
@@ -317,8 +324,17 @@
             </div>
             {{- form_widget(form.accessories) -}}
         </div>
+#}
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <hr>
 
-        {% if form.pluginData is empty %}
+        {#% if form.pluginData is empty %}
             {% do form.pluginData.setRendered %}
         {% else %}
             {% for pluginForm in form.pluginData %}
@@ -331,7 +347,7 @@
                     {{ form_errors(pluginForm) }}
                 </div>
             {% endfor %}
-        {% endif %}
+        {% endif %#}
 
         {% embed '@ShopsysFramework/Admin/Inline/FixedBar/fixedBar.html.twig' %}
             {% block fixed_bar_content %}

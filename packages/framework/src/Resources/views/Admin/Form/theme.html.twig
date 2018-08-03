@@ -66,14 +66,14 @@
         {% endif %}
     {% else %}
         {% if render_form_row %}
-            <div class="form-line{{ disabledField is defined ? ' form-input-disabled form-line--disabled' }}">
+            <div class="form-line{{ attr.disabledField is defined ? ' form-input-disabled form-line--disabled' }}">
             {{ form_errors(form) }}
             {{ form_label(form, label) }}
         {% endif %}
         {{ form_widget(form) }}
-        {% if disabledField is defined %}
-            <span class="form-disabled {{ disabledField.class }} js-tooltip" data-toggle="tooltip" data-placement="{{ disabledField.placement|default('right') }}"
-                  title="{{ disabledField.title }}">
+        {% if attr.disabledField is defined %}
+            <span class="form-disabled {{ attr.disabledField__class }} js-tooltip" data-toggle="tooltip" data-placement="{{ attr.disabledField__placement|default('right') }}"
+                  title="{{ attr.disabledField__title }}">
                 <i class="svg svg-pencil"></i>
             </span>
         {% endif %}
@@ -198,7 +198,7 @@
                 {{ seoFormRowMacros.multidomainRow(form, form.vars.label|trans, form.vars.macro.recommended_length) }}
             {% endif %}
         {% else %}
-            <div class="form-line{{ disabledField is defined ? ' form-input-disabled form-line--disabled' }}">
+            <div class="form-line{{ attr.disabledField is defined ? ' form-input-disabled form-line--disabled' }}">
             {{ form_label(form, label) }}
             <div class="form-line__side">
                 <div class="form-line__item">
@@ -212,9 +212,9 @@
                 </div>
                 {{ form_errors(form) }}
             </div>
-            {% if disabledField is defined %}
-                <span class="form-disabled {{ disabledField.class }} js-tooltip" data-toggle="tooltip" data-placement="{{ disabledField.placement|default('right') }}"
-                    title="{{ disabledField.title }}">
+            {% if attr.disabledField is defined %}
+                <span class="form-disabled {{ attr.disabledField__class }} js-tooltip" data-toggle="tooltip" data-placement="{{ attr.disabledField__placement|default('right') }}"
+                    title="{{ attr.disabledField__title }}">
                     <i class="svg svg-pencil"></i>
                 </span>
             {% endif %}
@@ -1042,3 +1042,64 @@
         </div>
     {% endif %}
 {% endblock %}
+
+{% block productParemeterValueGroup_widget %}
+    {% import _self as macros %}
+    {% macro parameterRow(parameter, index) %}
+        <tr class="js-parameters-item js-form-group table-form__row" data-index="{{ index }}">
+            <td class="table-form__cell table-form__cell--del-before">
+                {{ form_widget(parameter.parameter, { isSimple: true} ) }}
+            </td>
+            <td class="table-form__cell table-form__cell--del">
+                <span class="svg svg-arrow-right"></span>
+            </td>
+            <td class="table-form__cell  table-form__cell--del-after">
+                {% for locale, valueTextLocaleForm in parameter.valueTextsByLocale %}
+                    <div class="input__wrap">
+                        {{ form_widget(valueTextLocaleForm, { attr: { class: 'input--flag'} })  }}
+                        <span class="input__flag">
+                                            {{ localeFlag(locale) }}
+                                        </span>
+                        {{ form_errors(valueTextLocaleForm, { errors_attr: { class: 'table-form__cell__error' } } ) }}
+                    </div>
+                {% endfor %}
+            </td>
+            <td class="table-form__cell text-right">
+                <a href="#" class="js-parameters-item-remove table-form__action"><i class="svg svg-circle-cross"></i></a>
+            </td>
+        </tr>
+    {% endmacro %}
+    <div class="js-form-group wrap-border form-group">
+        <table class="table-form" id="product_edit_form_parameters">
+            <thead>
+            <tr class="table-form__row">
+                <th class="table-form__cell table-form__cell--del-before table-form__cell--label">{{ 'Parameter'|trans }}</th>
+                <th class="table-form__cell table-form__cell--del"></th>
+                <th class="table-form__cell table-form__cell--del-after">{{ 'Value'|trans }}</th>
+                <th class="table-form__cell"></th>
+            </tr>
+            </thead>
+            <tbody class="js-parameters" data-prototype="{{ macros.parameterRow(form.vars.prototype)|escape }}" data-index="{{ form|length }}">
+
+            {% for key, parameter in form %}
+                {{ macros.parameterRow(parameter, key) }}
+            {% else %}
+                {% do form.setRendered %}
+            {% endfor %}
+
+            <tr class="js-parameters-empty-item table-form__row">
+                <td class="table-form__cell" colspan="4">{{ 'Add some parameters'|trans }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="form-line form-line--no-top-border">
+            <div class="form-line__line form-line__line--no-space">
+                <a href="#" class="js-parameters-item-add btn btn--plus">
+                    <i class="btn__icon">+</i>
+                    {{ 'Add another parameter'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock productParemeterValueGroup_widget %}

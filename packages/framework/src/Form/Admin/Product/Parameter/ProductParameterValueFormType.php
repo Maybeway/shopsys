@@ -62,4 +62,11 @@ class ProductParameterValueFormType extends AbstractType
             'data_class' => ProductParameterValuesLocalizedData::class,
         ]);
     }
+
+    public function getBlockPrefix()
+    {
+        return 'productParameterValue';
+    }
+
+
 }

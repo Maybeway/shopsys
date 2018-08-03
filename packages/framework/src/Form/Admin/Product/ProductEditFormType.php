@@ -4,8 +4,10 @@ namespace Shopsys\FrameworkBundle\Form\Admin\Product;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Plugin\PluginCrudExtensionFacade;
+use Shopsys\FrameworkBundle\Form\Admin\Product\Parameter\ProductParameterValueFormGroupType;
 use Shopsys\FrameworkBundle\Form\Admin\Product\Parameter\ProductParameterValueFormType;
 use Shopsys\FrameworkBundle\Form\Constraints\UniqueProductParameters;
+use Shopsys\FrameworkBundle\Form\GroupType;
 use Shopsys\FrameworkBundle\Form\ImageUploadType;
 use Shopsys\FrameworkBundle\Form\ProductsType;
 use Shopsys\FrameworkBundle\Form\Transformers\ProductParameterValueToProductParameterValuesLocalizedTransformer;
@@ -61,7 +63,8 @@ class ProductEditFormType extends AbstractType
         Domain $domain,
         PluginCrudExtensionFacade $pluginDataFormExtensionFacade,
         ProductParameterValueToProductParameterValuesLocalizedTransformer $productParameterValueToProductParameterValuesLocalizedTransformer
-    ) {
+    )
+    {
         $this->removeDuplicatesTransformer = $removeDuplicatesTransformer;
         $this->pricingGroupFacade = $pricingGroupFacade;
         $this->domain = $domain;
@@ -81,7 +84,76 @@ class ProductEditFormType extends AbstractType
             ->add('productData', ProductFormType::class, [
                 'product' => $editedProduct,
                 'inherit_data' => true,
+                'render_form_row' => false,
+            ]);
+        /*            ->add('images', ImageUploadType::class, [
+                        'required' => false,
+                        'multiple' => true,
+                        'file_constraints' => [
+                            new Constraints\Image([
+                                'mimeTypes' => ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+                                'mimeTypesMessage' => 'Image can be only in JPG, GIF or PNG format',
+                                'maxSize' => '2M',
+                                'maxSizeMessage' => 'Uploaded image is to large ({{ size }} {{ suffix }}). '
+                                    . 'Maximum size of an image is {{ limit }} {{ suffix }}.',
+                            ]),
+                        ],
+                        'entity' => $options['product'],
+                        'info_text' => t('You can upload following formats: PNG, JPG, GIF'),
+                    ])
+
+
+        */
+        $builderParametersGroup = $builder->create('parametersGroup', GroupType::class, [
+            'label' => t('Parameters'),
+        ]);
+
+        $builderParametersGroup
+            ->add($builder->create('parameters', ProductParameterValueFormGroupType::class, [
+                'required' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'entry_type' => ProductParameterValueFormType::class,
+                'constraints' => [
+                    new UniqueProductParameters([
+                        'message' => 'Each parameter can be used only once',
+                    ]),
+                ],
+                'error_bubbling' => false,
+                'render_form_row' => false,
             ])
+                ->addViewTransformer($this->productParameterValueToProductParameterValuesLocalizedTransformer)
+            );
+
+        $builder->add($builderParametersGroup);
+
+        $builder
+            ->add('manualInputPricesByPricingGroupId', FormType::class, [
+                'compound' => true,
+            ])
+#            ->add('urls', UrlListType::class, [
+#                'route_name' => 'front_product_detail',
+#                'entity_id' => $editedProduct !== null ? $editedProduct->getId() : null,
+#            ])
+            ->add(
+                $builder
+                    ->create('accessories', ProductsType::class, [
+                        'required' => false,
+                        'main_product' => $editedProduct,
+                        'sortable' => true,
+                        'label' => t('Accessories'),
+                        'attr' => [
+                            'class' => 'wrap-border' # if pluginData is not null
+                        ]
+                    ])
+                    ->addViewTransformer($this->removeDuplicatesTransformer)
+            );
+
+
+        $builderImageGroup = $builder->create('image', GroupType::class, [
+            'label' => t('Images'),
+        ]);
+        $builderImageGroup
             ->add('images', ImageUploadType::class, [
                 'required' => false,
                 'multiple' => true,
@@ -96,36 +168,11 @@ class ProductEditFormType extends AbstractType
                 ],
                 'entity' => $options['product'],
                 'info_text' => t('You can upload following formats: PNG, JPG, GIF'),
-            ])
-            ->add($builder->create('parameters', CollectionType::class, [
-                    'required' => false,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'entry_type' => ProductParameterValueFormType::class,
-                    'constraints' => [
-                        new UniqueProductParameters([
-                            'message' => 'Each parameter can be used only once',
-                        ]),
-                    ],
-                    'error_bubbling' => false,
-                ])
-                ->addViewTransformer($this->productParameterValueToProductParameterValuesLocalizedTransformer))
-            ->add('manualInputPricesByPricingGroupId', FormType::class, [
-                'compound' => true,
-            ])
-            ->add('urls', UrlListType::class, [
-                'route_name' => 'front_product_detail',
-                'entity_id' => $editedProduct !== null ? $editedProduct->getId() : null,
-            ])
-            ->add(
-                $builder
-                    ->create('accessories', ProductsType::class, [
-                        'required' => false,
-                        'main_product' => $editedProduct,
-                        'sortable' => true,
-                    ])
-                    ->addViewTransformer($this->removeDuplicatesTransformer)
-            )
+                'label' => t('Images'),
+            ]);
+
+        $builder
+            ->add($builderImageGroup)
             ->add('save', SubmitType::class);
 
         $this->pluginDataFormExtensionFacade->extendForm($builder, 'product', 'pluginData');
@@ -171,8 +218,9 @@ class ProductEditFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setRequired('product')
+            ->setRequired(['scenario', 'product'])
             ->setAllowedTypes('product', [Product::class, 'null'])
+            ->setAllowedValues('scenario', [ProductFormType::SCENARIO_CREATE, ProductFormType::SCENARIO_EDIT])
             ->setDefaults([
                 'data_class' => ProductData::class,
                 'attr' => ['novalidate' => 'novalidate'],

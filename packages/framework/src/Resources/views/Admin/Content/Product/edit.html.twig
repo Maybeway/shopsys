@@ -50,7 +50,7 @@
     {% endif %}
 {% endblock %}
 
-{% block product_catnum %}
+{#% block product_catnum %}
     {% if product.isMainVariant %}
         {{ form_row(form.productData.catnum, { label: 'Catalogue number'|trans, disabledField: { title: 'This item can be set in product detail of a specific variant'|trans, class: 'form-line__disabled' } }) }}
     {% else %}
@@ -72,9 +72,9 @@
     {% else %}
         {{ parent() }}
     {% endif %}
-{% endblock %}
+{% endblock %#}
 
-{% block product_stock_and_availability %}
+{#% block product_stock_and_availability %}
     {% if product.isMainVariant %}
         {{ form_row(form.productData.usingStock, { label: 'Use stocks'|trans, disabledField: { title: 'This item can be set in product detail of a specific variant'|trans, class: 'form-line__disabled' } }) }}
         <div class="js-product-using-stock form-line__js">
@@ -90,7 +90,7 @@
     {% else %}
         {{ parent() }}
     {% endif %}
-{% endblock %}
+{% endblock %#}
 
 {% block product_calculated_hidden_info %}
     {% if product.isUsingStock and product.calculatedHidden and product.stockQuantity <= 0 %}
@@ -197,7 +197,7 @@
 {% block product_calculated_prices %}
     <div class="form-price-heading">
         <div class="form-price-heading__cell form-price-heading__cell--field">
-            {{ inputPriceLabel({ isSimple: true }) }}
+            {{ inputPriceLabel({ isSimple: false }) }}
         </div>
         <div class="form-price-heading__cell form-price-heading__cell--price">{{ 'Price excluding VAT'|trans }}</div>
         <div class="form-price-heading__cell form-price-heading__cell--price">{{ 'Price including VAT'|trans }}</div>
@@ -210,7 +210,7 @@
             <div class="form-line__item">
                 {{ form_widget(form.productData.price, { symbolAfterInput: currencySymbolDefault() }) }}
             </div>
-            {% if productBasePrice is defined %}
+            {% if productBasePrice is not defined %}
                 <div class="form-line__item--right">
                     <div class="form-line__item__price">{{ productBasePrice.priceWithoutVat|priceWithCurrencyAdmin }}</div>
                     <div class="form-line__item__price"><strong>{{ productBasePrice.priceWithVat|priceWithCurrencyAdmin }}</strong></div>
@@ -266,7 +266,7 @@
     {% endfor %}
 {% endblock %}
 
-{% block product_description %}
+{#% block product_description %}
     <div class="form-group__title">
         {{ 'Description'|trans }}
     </div>
@@ -296,9 +296,9 @@
             </div>
         {% endfor %}
     {% endif %}
-{% endblock %}
+{% endblock %#}
 
-{% block product_short_description %}
+{#% block product_short_description %}
     <div class="form-group__title">
         {{ 'Short description'|trans }}
     </div>
@@ -327,8 +327,8 @@
             </div>
         {% endfor %}
     {% endif %}
-{% endblock %}
+{% endblock %#}
 
-{% block product_urls %}
+{#% block product_urls %}
     {{ form_row(form.urls, { label: 'URL settings'|trans }) }}
-{% endblock %}
+{% endblock %#}
