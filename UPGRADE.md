@@ -42,7 +42,7 @@ if you are using docker infrastructure you can follow steps written below.
 
     `docker-compose down`
 
-    `rm -rf <project-root-path>/var/postgres-data`
+    `rm -rf <project-root-path>/var/postgres-data/*`
 
 1. start new docker-compose stack with newer version of postgres by just recreating your containers:
 
