@@ -30,11 +30,13 @@ if you are using docker infrastructure you can follow steps written below.
 
     `docker exec -it shopsys-framework-postgres pg_dumpall > backupfile`
 
-1. copy new version of `docker-compose`:
+1. copy new version of `docker-compose.`:
 
-    `cp docker/conf/docker-compose.yml.dist`
+    `cp docker/conf/docker-compose.yml.dist -f docker-compose.yml`
 
     *Note: select correct `docker-compose` according to your operating system*
+
+1. update version of `database_server_version` from *9.5* to *10.4* in your `parameters.yml`
 
 1. stop containers and delete old data:
 
