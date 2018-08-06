@@ -19,13 +19,14 @@ There is a list of all the repositories maintained by monorepo, changes in log b
 
 ### [shopsys/framework]
 #### PostgreSQL upgrade:
-We decided to move onto newer version of postgres to and you can too, even without losing your data.
+We decided to move onto a newer version of PostgreSQL.
 
-These steps are for migrating your data onto newer version of postgres and are inspired by [official postgres documentation](https://www.postgresql.org/docs/10/static/upgrading.html):
+These steps are for migrating your data onto newer version of postgres and are inspired by [official documentation](https://www.postgresql.org/docs/10/static/upgrading.html):
 
-If you are running your project natively then just follow these instructions, if you are using docker infrastructure you can follow steps written below.
+If you are running your project natively then just follow [official instructions](https://www.postgresql.org/docs/10/static/upgrading.html), 
+if you are using docker infrastructure you can follow steps written below.
 
-1. create a backup of your sql data by executing:
+1. create a backup of your database by executing::
 
     `docker exec -it shopsys-framework-postgres pg_dumpall > backupfile`
 
@@ -39,7 +40,7 @@ If you are running your project natively then just follow these instructions, if
 
     `docker-compose down`
 
-    `rm -rf <project-name>/var/postgres-data`
+    `rm -rf <project-root-path>/var/postgres-data`
 
 1. start new docker-compose stack with newer version of postgres by just recreating your containers:
 
@@ -52,6 +53,10 @@ If you are running your project natively then just follow these instructions, if
 1. restore you data:
 
     `docker exec -it shopsys-framework-postgres psql -d postgres -f backupfile`
+
+1. delete backup file:
+
+    `docker exec -it shopsys-framework-postgres rm backupfile`
 
 ## [From 7.0.0-alpha3 to 7.0.0-alpha4]
 

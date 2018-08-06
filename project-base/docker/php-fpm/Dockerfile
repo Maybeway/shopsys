@@ -49,7 +49,7 @@ RUN apk add --update nodejs-npm
 RUN npm install -g grunt-cli
 
 # install postgresql to allow execution of pg_dump for acceptance tests
-RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main postgresql
+RUN apk add --update --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/latest-stable/main postgresql
 
 # install locales and switch to en_US.utf8 in order to enable UTF-8 support
 # see https://github.com/docker-library/php/issues/240#issuecomment-305038173
