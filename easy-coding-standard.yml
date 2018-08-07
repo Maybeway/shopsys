@@ -6,6 +6,14 @@ imports:
 services:
     SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
 
+    # keep 1 empty line between constants, properties and methods
+    # keep 0 empty lines after class open bracket {
+    # keep 0 empty lines before class end bracket }
+    PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer:
+        elements:
+            - 'property'
+            - 'method'
+
 parameters:
     skip:
         Shopsys\CodingStandards\Sniffs\ForbiddenSuperGlobalSniff:
