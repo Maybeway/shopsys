@@ -4,7 +4,11 @@ imports:
 parameters:
     exclude_files:
         - '*/tests/ShopBundle/Test/Codeception/_generated/AcceptanceTesterActions.php'
+
     skip:
+        Shopsys\CodingStandards\Sniffs\ForbiddenSuperGlobalSniff:
+            - 'project-base/app/router.php'
+
         ObjectCalisthenics\Sniffs\Files\FunctionLengthSniff:
             - '*/src/Shopsys/ShopBundle/Controller/Front/OrderController.php'
             - '*/src/Shopsys/ShopBundle/Form/Front/Customer/BillingAddressFormType.php'
@@ -22,8 +26,10 @@ parameters:
         Shopsys\CodingStandards\Sniffs\ValidVariableNameSniff:
             - '*/tests/ShopBundle/Database/EntityExtension/EntityExtensionTest.php'
             - '*/tests/ShopBundle/Test/Codeception/_generated/AcceptanceTesterActions.php'
+            - 'project-base/app/router.php'
 
         Shopsys\CodingStandards\Sniffs\ObjectIsCreatedByFactorySniff:
           - '*/tests/*'
+
         Shopsys\CodingStandards\Sniffs\ForbiddenDumpSniff:
           - '*/tests/ShopBundle/Database/Model/Cart/CartFacadeTest.php'
