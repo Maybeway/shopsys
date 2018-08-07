@@ -2,3 +2,10 @@ imports:
     - { resource: 'packages/coding-standards/easy-coding-standard.yml' }
     - { resource: 'packages/*/easy-coding-standard.yml' }
     - { resource: 'project-base/easy-coding-standard.yml' }
+
+parameters:
+    skip:
+        Shopsys\CodingStandards\Sniffs\ForbiddenSuperGlobalSniff:
+            - 'project-base/app/router.php'
+        Shopsys\CodingStandards\Sniffs\ValidVariableNameSniff:
+            - 'project-base/app/router.php'
