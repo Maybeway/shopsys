@@ -3,9 +3,15 @@ imports:
     - { resource: 'packages/*/easy-coding-standard.yml' }
     - { resource: 'project-base/easy-coding-standard.yml' }
 
+services:
+    SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
+
 parameters:
     skip:
         Shopsys\CodingStandards\Sniffs\ForbiddenSuperGlobalSniff:
             - 'project-base/app/router.php'
         Shopsys\CodingStandards\Sniffs\ValidVariableNameSniff:
             - 'project-base/app/router.php'
+        SlevomatCodingStandard\Sniffs\Classes\UnusedPrivateElementsSniff:
+            - '*/packages/coding-standards/tests/Unit/CsFixer/OrmJoinColumnRequireNullableFixer/*'
+            - 'packages/coding-standards/examples/ValidClass.php'
