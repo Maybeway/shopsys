@@ -80,6 +80,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#362 - guidelines-for-pull-request.md: fixed indentation of lines and code blocks](https://github.com/shopsys/shopsys/pull/362)
 
 #### Removed
+- [#371 - Remove unused dependencies](https://github.com/shopsys/shopsys/pull/371)
 - Error reporting functionality was removed as a part of [#313 - Streamed logging](https://github.com/shopsys/shopsys/pull/313)
     - error reporting should be done from the outside of the application (eg. by [Kubernetes](https://kubernetes.io/))
 
@@ -105,6 +106,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [shopsys/coding-standards]
 #### Added
+- [#371 - Add UnusedPrivateElementsSniff](https://github.com/shopsys/shopsys/pull/371)
 - [#308 - Sniff for forgotten dumps](https://github.com/shopsys/shopsys/pull/308)
     - ecs tester for coding standards was added with tests for sniffs and fixers [@TomasVotruba]
     - added support for checking standards of file types twig, html
@@ -133,6 +135,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 #### Fixed
 - [#323 - Packages that depend on shopsys/framework need redis extension enabled](https://github.com/shopsys/shopsys/pull/323)
     - redis extension in travis config was enabled
+
+#### Removed
+- [#371 - Remove unused dependencies](https://github.com/shopsys/shopsys/pull/371)
 
 ### [shopsys/product-feed-heureka-delivery]
 #### Changed
@@ -169,6 +174,9 @@ It was only important with [the original open-box architecture](https://blog.sho
 - [#315 - Route logout/ without csrf token returns not found](https://github.com/shopsys/shopsys/pull/315)
     - route logout/ must to be called with token in every case because LogoutListener from Symfony throws exception if token generator is set in configuration of firewall but the route logout is used without csrf token parameter
 - [#339 - Downgrade snc/redis-bundle to 2.1.4 due to Issue in phpredis](https://github.com/shopsys/shopsys/pull/339)
+
+#### Removed
+- [#371 - Remove unused dependencies](https://github.com/shopsys/shopsys/pull/371)
 
 ## [7.0.0-alpha3] - 2018-07-03
 ### [shopsys/framework]
