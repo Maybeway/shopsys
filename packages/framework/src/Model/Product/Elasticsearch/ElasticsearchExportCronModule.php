@@ -4,7 +4,6 @@ namespace Shopsys\FrameworkBundle\Model\Product\Elasticsearch;
 
 use Shopsys\Plugin\Cron\SimpleCronModuleInterface;
 use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\Console\Output\ConsoleOutput;
 
 class ElasticsearchExportCronModule implements SimpleCronModuleInterface
 {
@@ -14,15 +13,9 @@ class ElasticsearchExportCronModule implements SimpleCronModuleInterface
      */
     private $elasticsearchExportProductFacade;
 
-    /**
-     * @var \Symfony\Component\Console\Output\ConsoleOutput
-     */
-    private $consoleOutput;
-
-    public function __construct(ElasticsearchExportProductFacade $elasticsearchExportProductFacade, ConsoleOutput $consoleOutput)
+    public function __construct(ElasticsearchExportProductFacade $elasticsearchExportProductFacade)
     {
         $this->elasticsearchExportProductFacade = $elasticsearchExportProductFacade;
-        $this->consoleOutput = $consoleOutput;
     }
 
     /**
@@ -34,6 +27,6 @@ class ElasticsearchExportCronModule implements SimpleCronModuleInterface
 
     public function run()
     {
-        $this->elasticsearchExportProductFacade->exportAll($this->consoleOutput);
+        $this->elasticsearchExportProductFacade->exportAll();
     }
 }

@@ -509,8 +509,6 @@ services:
 
   Symfony\Component\Config\Loader\LoaderInterface: '@routing.loader'
 
-  Symfony\Component\Console\Output\ConsoleOutput: ~
-
   Shopsys\FrameworkBundle\Component\Doctrine\SqlQuoter: ~
 
   Shopsys\FrameworkBundle\Component\Router\CurrentDomainRouter:
