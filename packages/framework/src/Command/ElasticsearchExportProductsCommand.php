@@ -40,7 +40,7 @@ class ElasticsearchExportProductsCommand extends Command
     {
         $symfonyStyleIo = new SymfonyStyle($input, $output);
         $output->writeln('Exporting products to the elasticsearch');
-        $this->exportFacade->exportAll($output);
+        $this->exportFacade->exportAll();
         $symfonyStyleIo->success('All products successfully exported');
     }
 }

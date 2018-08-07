@@ -3,7 +3,6 @@
 namespace Shopsys\FrameworkBundle\Model\Product\Elasticsearch;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class ElasticsearchExportProductFacade
 {
@@ -23,17 +22,12 @@ class ElasticsearchExportProductFacade
         $this->exporter = $exporter;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     */
-    public function exportAll(OutputInterface $output): void
+    public function exportAll(): void
     {
         foreach ($this->domain->getAll() as $domain) {
             $id = $domain->getId();
             $locale = $domain->getLocale();
-            $output->writeln(sprintf('Exporting domain ID %s', $id));
             $this->exporter->export($id, $locale);
-            $output->writeln('Exporting finished');
         }
     }
 }
