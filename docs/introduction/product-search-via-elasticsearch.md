@@ -56,3 +56,20 @@ to your custom directory and put your own JSON configurations in it using the sa
 If you need to change the data that are exported into Elasticsearch, overwrite appropriate methods in `ElasticsearchProductRepository` and `ElasticsearchProductTranslator` classes.
 
 You can also change the searching behavior by overwriting `ElasticsearchSearchClient` class.
+
+## Troubleshooting
+* You can easily check if there is a product exported in the elasticsearch by putting following url address into your browser
+  `http://127.0.0.1:9200/{domain ID}/_doc/{product ID}?pretty`
+  eg. `http://127.0.0.1:9200/1/_doc/52?pretty`
+
+* If the export fails with a following error (or similar)
+  `
+  [Elasticsearch\Common\Exceptions\Forbidden403Exception (403)]
+  ...{"type": "cluster_block_exception", "reason": "blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];"}...
+  `
+  It means the Elasticsearch switched into a read-only mode. Possible reason is that you have almost full disk, default value when Elasticsearch switch into read-only mode is `95%`.
+
+  Solution is to make more space on your hard drive, and then manually release the read-only mode by running followin console command:
+  `curl -XPUT -H "Content-Type: application/json" http://localhost:9200/_all/_settings -d '{"index.blocks.read_only_allow_delete": null}'`
+
+  You can find more information in [https://www.elastic.co/guide/en/elasticsearch/reference/6.2/disk-allocator.html](https://www.elastic.co/guide/en/elasticsearch/reference/6.2/disk-allocator.html).
